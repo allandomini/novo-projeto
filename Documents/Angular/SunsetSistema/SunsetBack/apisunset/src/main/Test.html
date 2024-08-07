@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Test</title>
+    <script>
+      async function login() {
+        const nameUser = document.getElementById("nameUser").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          const response = await fetch(
+            "http://localhost:8080/User/authenticate",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ nameUser, password }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          const data = await response.json();
+          if (data) {
+            alert("Login successful");
+          } else {
+            alert("Login failed");
+          }
+        } catch (error) {
+          console.error("Erro ao autenticar:", error);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <input type="text" id="nameUser" placeholder="Nome de Usuário" />
+    <input type="password" id="password" placeholder="Senha" />
+    <button onclick="login()">Login</button>
+  </body>
+</html>
